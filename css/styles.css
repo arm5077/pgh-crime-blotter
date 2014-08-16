@@ -1,0 +1,307 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+
+body, html {
+	height:100%;
+	margin:0;
+	font-family:"Open Sans", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin:0;
+	padding:0;
+	line-height:1em;
+}
+
+#title {
+	position:fixed;
+	top:10px;
+	left:10px;
+	background-color:rgba(255,255,255,0);
+	z-index:4;
+}
+
+#header {
+	position:fixed;	
+	width:100%;
+	height:20px;
+	padding:10px;
+	z-index:3;
+	background-color:rgba(255,255,255,1);
+	border-bottom:1px solid lightgray;
+	transition: all .5s;
+	opacity:1;
+}
+	
+	#header.hidden{
+		opacity:0;
+	}
+
+	#header .button {
+		padding: 7px;
+		font-size: 11pt;
+		font-weight: 100;
+		float: right;
+		height: 15px;
+		line-height: 15px;
+		position: absolute;
+		right: 25px;
+		top: 7px;
+		cursor: pointer;
+		
+	}
+	
+	
+#map {
+	width:100%;
+	height:100%;
+	position:fixed;
+	z-index:1
+}
+
+#search {
+	position:fixed;
+	top:40px;
+	right:0;
+	width:500px;
+	height:300px;
+	background-color:white;
+	z-index:2;
+	top:-100%;
+}
+
+#content {
+	width:300px;
+	//height:100%;
+	position:fixed;
+	overflow-x:hidden;
+	overflow-y:scroll;
+	top:40px;
+	left:0px;
+	background-color:white;
+	z-index:2;
+	border-right:1px solid lightgray;
+	transition: left .5s;
+	color:rgba(0,0,0.9);
+	padding-top:20px
+}
+
+	#content:after {
+		content: " ";
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		width: 8px;
+		height: attr(data-height);
+		background: -webkit-gradient(linear, left top, right top, color-stop(0, transparent), color-stop(100%, rgba(0,0,0,0.25)));
+		background: -webkit-linear-gradient(left, transparent 0, rgba(0,0,0,0.25) 100%);
+		background: linear-gradient(to right, transparent 0, rgba(0,0,0,0.25) 100%);
+		opacity: .2;
+	}
+	
+	#content .block {
+		width:90%;
+		border-bottom:10px solid #eee;
+		margin:0px auto 25px;
+		padding-bottom:20px;
+	}
+
+		#content .block:last-child {
+			border:0;
+		}
+	
+	#content #aggregated {
+	
+	}
+		
+	#content .section {
+	
+	}
+	
+		#content .section:after {
+		
+		}
+	
+		#content .section h1 {
+			font-size:80pt;
+		}
+		
+		#content .section h4 {
+			font-weight:400;
+			font-size:10pt;
+			
+		}
+		
+		#content .section table {
+			border-spacing:0;
+			border-collapse:collapse;
+			width:90%;
+			margin:10px auto;
+			font-size:11pt;
+		}
+		
+		
+		#content .section td {
+			border-bottom:1px solid lightgray;
+			padding:8px 0px;
+		}
+		
+		#content .section td:last-child {
+			text-align:right;
+		}
+			#content #aggregate td:last-child {
+				width:20%;
+			}
+		
+		
+		#content .section tr:last-child  td{
+			border-bottom:0;
+		}
+		
+		#content .incident {
+			
+			//border-left:10px solid;
+			border-top:1px solid #bbb;
+			border-bottom:1px solid #bbb;
+			padding:0 0px 0 15px;
+			margin: 20px 0px 0px 0px;
+			position:relative;
+			
+		}
+		
+			#content .incident:first-of-type{
+				margin-top:20px;
+			}
+		
+			#content .incident:hover, #content .incident.hover {
+				background-color:#f2f2f2;
+				cursor:pointer;
+			}
+			
+			#content .incident.selected {
+				background-color:#C7D2FF;
+			}
+		
+			#content  .incident:before {
+				content: " ";
+				width: 10px;
+				background-color:red;
+				position:absolute;
+				top:0;
+				left:0;
+				bottom:0;
+				
+			}
+			
+			#content .incident.arrest:before {
+				background-color:#D6756E;
+			}
+			
+			#content  .incident.offense:before {
+				background-color:#509B6C;
+			}
+			
+			#content  .incident .timestamp {
+				font-weight:800;
+				margin-bottom:10px;
+				padding:5px 0px 5px 5px;
+				margin-right:5px;
+				text-transform:uppercase;
+				font-size:10pt;
+				border-bottom:1px solid lightgray;
+				color:#444
+			}
+			
+			#content .incident h1 {
+				font-family: "Oswald", sans-serif;
+				padding: 0;
+				font-size: 16pt;
+				font-weight: 400;
+				border-bottom: 1px dashed gray;
+				padding: 0 0 10px 0;
+				margin: 0 25px 10px 0; 
+				line-height:1.375em;
+			}
+				#content .incident h1:last {
+			
+				}
+				
+				
+			#content .incident .info {
+				margin:0 5px 0 0;
+			
+			
+			}
+			
+				#content .incident .info table {
+					margin:0;
+				}
+					
+					#content .incident .info table tr {
+						margin: 10px 0;
+						display: block;
+						padding-bottom: 10px;
+						border-bottom: 1px solid lightgray;
+					}
+						
+						#content .incident .info table tr:first-child {
+							margin-top:0;
+						}
+						
+						#content .incident .info table tr:last-child {
+							border:none;
+							margin-bottom:0;
+						}
+						
+					
+						#content .incident .info table tr td {
+							margin:0px;
+							border:0px;
+							padding:0px;
+						}
+						
+							#content .incident .info table tr td:first-child {
+								width:30px;
+							}
+						
+				#content .incident .info .fa {
+					font-size:15pt; 
+					margin:0 0px 0 5px;
+				}
+				
+				#content .incident .info h2 {
+					margin:0;
+					padding:0;
+					font-size:10pt;
+					font-weight:400;
+					text-align:left;
+					margin-bottom:5px;
+				}
+					
+					#content .incident .info h2:last-child {
+						margin-bottom:0px;
+					}
+			
+	#content.hidden{
+		left:-300px;
+		opacity:0;
+	}
+
+.center {
+	margin:auto;
+	text-align:center;
+}
+
+.uppercase {
+	text-transform:uppercase;
+}
+
+.skrollable {
+	/*
+	 * First-level skrollables are positioned relative to window
+	 */
+	position:fixed;
+	z-index:100;
+	width:300px;
+}

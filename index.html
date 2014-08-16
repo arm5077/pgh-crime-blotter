@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Insert Pittsburgh blotter title here</title>
+		
+		<!-- Leaflet: http://leafletjs.com/ -->
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		
+		<!-- Stamen maps layer: http://maps.stamen.com/#toner/12/37.7706/-122.3782 -->
+		<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+		
+		<!-- Jquery -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		
+		<!-- Waypoints.js: https://github.com/imakewebthings/jquery-waypoints -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.4/waypoints.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/skrollr/0.6.26/skrollr.min.js"></script>
+		<script src="js/scripts.js"></script>
+		
+		<!-- Fontawesome: http://fontawesome.io/ -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		
+		<!-- Markercluster: https://github.com/Leaflet/Leaflet.markercluster -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+				
+		<!-- jquery.scrollTo: -->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/1.4.11/jquery.scrollTo.min.js"></script>
+		
+		<!-- jquery UI -->
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+		
+		<!-- Default stylesheet -->
+		<link rel="stylesheet" href="css/styles.css" />
+		
+	</head>
+	
+	<body>
+		<h3 id = "title">openblotter</h3>
+		<div id="header" class="hidden">
+			<!--<div class = "button"><i class="fa fa-search"></i></div>-->
+		</div>
+		
+		<div id = "map"></div>
+		
+		<div id = "search">
+			<form>
+				<div class = "section" id = "geography">
+					<div class = "subsection">
+						<label for = "neighborhood">Neighborhood</label>
+						<select name = "neighborhood">
+							<option value = "All">All</option>
+							<option value = "Allegheny West">Allegheny West</option>
+						</select>
+					</div>
+					<div class = "subsection">
+						<label for = "address">Address</label>
+						<input type = "text" name = "address">
+						<select name = "radius">
+							<option value = ".25">&frac14; mile</option>
+							<option value = ".5">&frac12; mile</option>
+							<option value = "1">1 mile</option>
+							<option value = "5">5 miles</option>
+						</select>
+					</div>
+					<div class = "subsection">
+						<div id = "dropPoints"></div>
+						<div id = "clearPoints"></div>
+						<input type = "text" name = "points">
+					</div>
+				</div>
+				<div class = "section" id = "incident">
+					<input type = "checkbox" name = "incident" value = "arrest"> Arrest
+					<input type = "checkbox" name = "incident" value = "offense"> Offense
+					<select multiple name = "crime">
+						<option value = "Murder">Murder</option>
+						<option value = "Robbery">Robbery</option>
+					</select>
+				</div>
+				<div class = "section" id = "date">
+					<input type = "date" name = "date">
+				</div>
+				<div class = "section" id = "time">
+					<input type = "time" name = "time">
+				</div>
+			</form>
+		</div>
+		
+		<div id = "content" class = "hidden" >
+			<div class = "section" id = "data">
+				<div class = "block">
+					<h4 class = "center uppercase">Total incidents</h4> 
+					<h1 class = "center" id = "total_incidents"></h1>
+				</div>
+				
+				<div class = "block" id = "aggregate">
+					<h4 class = "center uppercase" style="margin-top:20px;">Top incidents</h4>
+					<table></table>
+				</div>
+			
+			
+				<div class = "block" id = "incident_list" style="width:auto">
+					<h4 class = "center uppercase">All incidents</h4> 
+					
+					
+				</div>
+			</div>
+		</div>
+	
+		
+	
+	</body>
+	
+</html>

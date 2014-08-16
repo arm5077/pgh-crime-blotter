@@ -162,10 +162,10 @@ for i,val in enumerate(parsed_array):
 # Connect to database
 try:
 	conn = psycopg2.connect(
-		host = "blotter.ca5wksbwkzsv.us-east-1.rds.amazonaws.com", 
-		database = "blotter",
-		user = "arm5077", 
-		password = "lukebryan", 
+		host = my_host, 
+		database = my_database,
+		user = my_user, 
+		password = my_password, 
 	)			
 except Exception, e:
 	print e

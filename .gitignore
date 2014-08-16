@@ -1,6 +1,7 @@
 # PDFs and text files
-.pdf
-.txt
+*.pdf
+*.txt
+*.json
 
 # Windows image file caches
 Thumbs.db

@@ -29,8 +29,8 @@ _These instructions assume you're using an httpd/Apache web server program._
 4. Install required libraries
   * `sudo pip install psycopg2` (Don't forget psycopg's dependencies, `python-dev` and `libpq-dev`. [Check notes here.](http://initd.org/psycopg/install/#installing-from-source-code))
   * `sudo pip install pdfminer`
-4. Set up a cronjob to run `py/parser.py` at regular intervals. (Example: `00 09,11,13,18 * * * /usr/bin/python /var/www/html/blotter/py/parser.py`)
-5. [Profit!](https://www.youtube.com/watch?v=tO5sxLapAts)
+5. Set up a cronjob to run `py/parser.py` at regular intervals. (Example: `00 09,11,13,18 * * * /usr/bin/python /var/www/html/blotter/py/parser.py`)
+6. [Profit!](https://www.youtube.com/watch?v=tO5sxLapAts)
 
 Errors and logs
 ----

@@ -5,6 +5,7 @@
 # 4. charge sections start with a number
 # 5. if charge sections don't start with a number, they start with "misc" or "mental"
 
+from constants import *
 import os
 import sys
 import urllib2
@@ -24,7 +25,7 @@ headers = ['Incident Time', 'Location of Occurrence', 'Neighborhood', 'Incident'
 
 ###################temp
 export = file("../txt/export.txt", "w+")
-
+error_log = file("../txt/errors.txt", "w")
 
 def parsePDF(infile, outfile):
 	
@@ -132,6 +133,9 @@ for i in range(0,5):
 parsed_pdf = parsed_pdf[1:]
 parsed_pdf = parsed_pdf[:len(parsed_pdf) - 1]
 
+####### temp
+export.write(parsed_pdf)
+
 # Begin conversion to array
 	
 # Split string by zones
@@ -169,7 +173,7 @@ try:
 	)			
 except Exception, e:
 	print e
-	pass
+	sys.exit()
 
 cur = conn.cursor()
 
@@ -228,49 +232,56 @@ for i, zone in enumerate(parsed_array):
 			start = 5
 		
 		# Let's insert this incident info into the database
-		cur.execute("""
-					INSERT INTO blotter.incident
-					(
-						incidenttype,
-						incidentnumber,
-						incidentdate,
-						incidenttime,
-						address,
-						neighborhood,
-						lat,
-						lng,
-						zone,
-						age,
-						gender, 
-						geom
+		try:
+			cur.execute("""
+						INSERT INTO blotter.incident
+						(
+							incidenttype,
+							incidentnumber,
+							incidentdate,
+							incidenttime,
+							address,
+							neighborhood,
+							lat,
+							lng,
+							zone,
+							age,
+							gender, 
+							geom
+						)
+						VALUES
+						(
+							%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, ST_GeomFromText(%s, 4326)
+						)
+						RETURNING incidentid;
+						""",
+						( 
+							export_type, 
+							export_number, 
+							export_date, 
+							export_time, 
+							export_location, 
+							export_neighborhood, 
+							lat,
+							lng,
+							export_zone, 
+							export_age,
+							export_gender,
+							"POINT(" + str(lng) + " " + str(lat) + ")"
+							
+						) 
 					)
-					VALUES
-					(
-						%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, ST_GeomFromText(%s, 4326)
-					)
-					RETURNING incidentid;
-					""",
-					( 
-						export_type, 
-						export_number, 
-						export_date, 
-						export_time, 
-						export_location, 
-						export_neighborhood, 
-						lat,
-						lng,
-						export_zone, 
-						export_age,
-						export_gender,
-						"POINT(" + str(lng) + " " + str(lat) + ")"
-						
-					) 
-				)
+					
+			# Grab unique ID that was just 
+			# generated for this incident
+			# in our database
+			incidentid = cur.fetchone()
 		
-		# Grab unique ID that was just 
-		# generated for this incident
-		# in our database
-		incidentid = cur.fetchone()
+		except Exception, e:
+			print e
+			error_log.write("ERROR ON INCIDENT: " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
+			conn.rollback()
+			continue
 		
 		# OK, so this is fun. Essentially, the algorithm assumes that 
 		# for the remaining lines, anything starting with a digit is a section number
@@ -288,25 +299,34 @@ for i, zone in enumerate(parsed_array):
 
 		# Add incident descriptions to database
 		for l, val in enumerate(export_section_array):
-			cur.execute("""
-						INSERT INTO blotter.incidentdescription
-						(
-							incidentid,
-							section,
-							description
+			try:
+				cur.execute("""
+							INSERT INTO blotter.incidentdescription
+							(
+								incidentid,
+								section,
+								description
+							)
+							VALUES
+							(
+								%s, %s, %s
+							)
+							""",
+							(
+								incidentid,
+								val,
+								export_description_array[l]
+							)
 						)
-						VALUES
-						(
-							%s, %s, %s
-						)
-						""",
-						(
-							incidentid,
-							val,
-							export_description_array[l]
-						)
-					)
-conn.commit()
+			except Exception, e:
+				print e
+				error_log.write("ERROR ON INCIDENTDESCRIPTION: " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
+				conn.rollback()
+				continue
+		
+		# Commit incident to database
+		conn.commit()	
+
 cur.close()
 conn.close()
 		

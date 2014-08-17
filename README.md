@@ -22,7 +22,9 @@ Setup
 * [PDFMiner](http://www.unixuser.org/~euske/python/pdfminer/#install)
 
 ### Installation
+
 _These instructions assume you're using an httpd/Apache web server program._
+
 1. Download the repository and store in `/var/html/www`.
 2. Run `sql/initialize.sql` in PostgreSQL to set up `incident` and `incidentdescription` tables using the schema shown below.
 3. Add your PostgreSQL login credentials to `py/contants.py`.

@@ -25,7 +25,7 @@ headers = ['Incident Time', 'Location of Occurrence', 'Neighborhood', 'Incident'
 
 ###################temp
 export = file("../txt/export.txt", "w+")
-error_log = file("../txt/errors.txt", "w")
+error_log = file("../txt/errors.txt", "a+")
 
 def parsePDF(infile, outfile):
 	
@@ -279,7 +279,7 @@ for i, zone in enumerate(parsed_array):
 		
 		except Exception, e:
 			print e
-			error_log.write("ERROR ON INCIDENT: " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
+			error_log.write("ERROR ON INCIDENT(" + str(datetime.today()) + "): " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
 			conn.rollback()
 			continue
 		
@@ -320,7 +320,7 @@ for i, zone in enumerate(parsed_array):
 						)
 			except Exception, e:
 				print e
-				error_log.write("ERROR ON INCIDENTDESCRIPTION: " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
+				error_log.write("ERROR ON INCIDENTDESCRIPTION(" + str(datetime.today()) + "): " + export_type + ": " + export_number + ", " + export_time + " -- " + str(e))
 				conn.rollback()
 				continue
 		

@@ -12,10 +12,11 @@ def getAggregate():
 						FROM blotter.incidentdescription
 						JOIN blotter.incident on incident.incidentid = incidentdescription.incidentid
 						WHERE incident.incidentdate BETWEEN %s AND %s
+						AND incident.incidenttime BETWEEN %s AND %s
 						GROUP BY blotter.incidentdescription.description
 						ORDER BY total DESC
 						
-	""", (fields["startDate"].value, fields["endDate"].value))
+	""", (fields["startDate"].value, fields["endDate"].value, fields["startTime"].value, fields["endTime"].value ))
 	results = cur.fetchall()
 	
 	export_array = []
@@ -40,7 +41,8 @@ def getIncidents():
 						gender
 					FROM blotter.incident 
 					WHERE incidentdate BETWEEN %s AND %s 
-				""", ( fields["startDate"].value, fields["endDate"].value ) )
+					AND incident.incidenttime BETWEEN %s AND %s
+				""", ( fields["startDate"].value, fields["endDate"].value, fields["startTime"].value, fields["endTime"].value ) )
 	results = cur.fetchall()
 	
 	

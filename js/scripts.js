@@ -2,13 +2,23 @@
 // to yesterday's date. 
 d = new Date();
 d.setDate( d.getDate() - 1 );
-startDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-endDate = startDate;
+var startDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+var endDate = startDate;
+var startTime = "00:00";
+var endTime = "23:59";
+
 
 
 $(window).load(function(){
+	// Check to see if URL has fun things for us
+	
+	startDate = (getQueryVariable("startdate") != false ? getQueryVariable("startdate") : startDate);
+	endDate = (getQueryVariable("enddate") != false ? getQueryVariable("enddate") : startDate);
+	startTime = (getQueryVariable("starttime") != false ? getQueryVariable("starttime") : startTime);
+	endTime = (getQueryVariable("endtime") != false ? getQueryVariable("endtime") : endTime);
+
 	// Initialize map and add Stamen map layer
-	var layer = new L.StamenTileLayer("toner-lite");
+	var layer = new L.StamenTileLayer("terrain");
 	var map = new L.Map("map", {
 		center: new L.LatLng(40.4417, -80.0000),
 		zoom: 13,
@@ -24,7 +34,7 @@ $(window).load(function(){
 	var markers = L.markerClusterGroup();
 	
 	// Pull data
-	$.getJSON("py/process.py?operation=getIncidents&startDate=" + startDate + "&endDate=" + endDate, function(data){
+	$.getJSON("py/process.py?operation=getIncidents&startDate=" + startDate + "&endDate=" + endDate + "&startTime=" + startTime + "&endTime=" + endTime, function(data){
 		
 		// Update total count
 		$("#total_incidents").html( data.length );
@@ -99,7 +109,7 @@ $(window).load(function(){
 		map.addLayer(markers);
 		
 		// Add aggregrated charges
-		$.getJSON("py/process.py?operation=getAggregate&startDate=" + startDate + "&endDate=" + endDate, function(data){
+		$.getJSON("py/process.py?operation=getAggregate&startDate=" + startDate + "&endDate=" + endDate + "&startTime=" + startTime + "&endTime=" + endTime, function(data){
 			$.each(data, function(j, aggregateCrime){
 				var newAggregateCrime = $("<tr></tr>").appendTo("#aggregate table");
 				newAggregateCrime.append("<td><strong>" + aggregateCrime.description + "</strong></td>");
@@ -122,6 +132,15 @@ $(window).load(function(){
 	
 	$(window).on("resize", resize);
 	
+	$(".buttonContainer").children().click(function(){
+		attr = $(this).attr("to");
+		if (typeof attr !== typeof undefined && attr !== false) {
+			$(".popout").not("#" + attr).addClass("hidden");
+			$("#" + attr).toggleClass("hidden");
+		}
+	});
+	
+	
 });
 
 function resize(){
@@ -130,4 +149,14 @@ function resize(){
 	$("#content").css("height", "100%");
 	$("#content").css("height", $(window).height() - $("#header").height()-40); // sorry about using 40px, its arbitrary but works
 		
+}
+
+function getQueryVariable(variable){
+	var query = window.location.search.substring(1);
+	var vars = query.split("&");
+	for (var i=0;i<vars.length;i++) {
+			var pair = vars[i].split("=");
+			if(pair[0] == variable){return pair[1];}
+	}
+	return(false);
 }

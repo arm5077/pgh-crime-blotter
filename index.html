@@ -41,13 +41,20 @@
 	<body>
 		<h3 id = "title">openblotter</h3>
 		<div id="header" class="hidden">
-			<!--<div class = "button"><i class="fa fa-search"></i></div>-->
+			<div class = "buttonContainer">
+				<i class = "fa fa-search" to = "search"></i>
+				<a href = "https://github.com/arm5077/pgh-crime-blotter" target = "_blank">
+					<i class="fa fa-github"></i>
+				</a>
+				<i class="fa fa-info-circle" to = "about"></i>
+			</div>
 		</div>
 		
 		<div id = "map"></div>
 		
-		<div id = "search">
+		<div id = "search" class = "popout hidden">
 			<form>
+				<!--
 				<div class = "section" id = "geography">
 					<div class = "subsection">
 						<label for = "neighborhood">Neighborhood</label>
@@ -80,13 +87,57 @@
 						<option value = "Robbery">Robbery</option>
 					</select>
 				</div>
-				<div class = "section" id = "date">
-					<input type = "date" name = "date">
-				</div>
-				<div class = "section" id = "time">
-					<input type = "time" name = "time">
+				-->
+				<table>
+					<tr class = "section" id = "date">
+						<td class = "sectionTitle">
+							<h4>Date range</h4>
+						</td>
+						<td class = "sectionContent">
+							<div class = "subsection">
+								<div class = "inputWrapper half">
+									<label for = "startdate">Start date</label>
+									<input type = "date" name = "startdate" id = "startdate">
+								</div>
+								
+								<div class = "inputWrapper half">
+									<label for = "enddate">End date</label>
+									<input type = "date" name = "enddate" id = "enddate">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class = "section" id = "time">
+						<td class = "sectionTitle">
+							<h4>Time of day</h4>
+						</td>
+						<td class = "sectionContent">
+							<div class = "subsection">
+								<div class = "inputWrapper half">
+									<label for = "starttime">Start time</label>
+									<input type = "time" name = "starttime" id = "starttime">
+								</div>
+								
+								<div class = "inputWrapper half">
+									<label for = "starttime">End time</label>
+									<input type = "time" name = "endtime" id = "endtime">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class = "buttonContainer">
+					<button>Search</button>
 				</div>
 			</form>
+		</div>
+		
+		<div id = "about" class = "popout hidden" >
+			<h1>openblotter <div style="font-weight:100">an open pittsburgh project</div></h1>
+			<p>I scrape <a href="http://communitysafety.pittsburghpa.gov/Blotter.aspx">Pittsburgh Bureau of Police logs</a> every morning and display criminal incidents.</p>
+			<p>I strive to provide the best analysis of the city's data, but I'm limited to the accuracy of the contents and the number of incidents provided by the police. It is important that any decisions based on this data be confirmed using additional resources.</p>
+			<p>As the city says, <em>"The City of Pittsburgh has provided this information as a service. The City assumes no responsibility for the use of information posted on this site."</em>
+			<p>Blame Tim Condello, <a href="https://twitter.com/mhowe0422" target="_blank">Mark Howe</a>, <a href="https://twitter.com/andrewmcgill" target="_blank">Andrew McGill</a>, <a href="https://twitter.com/catskul" target="_blank">Andy Somerville</a> and <a href="https://twitter.com/openpgh" target="_blank">Open Pittsburgh</a> for creating me.</p>
 		</div>
 		
 		<div id = "content" class = "hidden" >
